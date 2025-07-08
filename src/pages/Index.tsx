@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ const Index = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Initialize EmailJS
   useEffect(() => {
@@ -27,11 +28,12 @@ const Index = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await emailjs.send('service_eot5v5t',
-        // Replace with your EmailJS service ID
+      await emailjs.sendForm(
+        'service_eot5v5t',
         'template_cfxwatf',
-        // Replace with your EmailJS template ID
-        formData);
+        formRef.current!,
+        'lLgxVQk9mvmNH9YzC'
+      );
       toast({
         title: "Message sent successfully!",
         description: "Thank you for reaching out. I'll get back to you soon."
@@ -41,6 +43,7 @@ const Index = () => {
         email: '',
         message: ''
       });
+      if (formRef.current) formRef.current.reset();
     } catch (error) {
       toast({
         title: "Failed to send message",
@@ -55,6 +58,10 @@ const Index = () => {
   const projects = [{
     title: "Voice AI Customer Support Agent",
     description: "Developed an AI-powered voice agent for real-time customer support and call automation. Handles natural language queries with intelligent responses using Twilio, LiveKit, and SIP Trunking.",
+    tech: ["OpenAI API", "Twilio", "LiveKit", "Python", "VAD"]
+  }, {
+    title: "AI Browser Automation Bot with Live Preview",
+    description: "Developed an AI-powered voice agent for real-time customer support and call automation. Handles natural language queries with intelligent responses using Twilio, LiveKit, and SIP Trunking.Developed a browser automation bot with real-time visual feedback, enabling natural language and voice-based control using LLAMA 3.3, FastAPI, and noVNC.",
     tech: ["OpenAI API", "Twilio", "LiveKit", "Python", "VAD"]
   }, {
     title: "AI-Powered Research Assistant",
@@ -84,38 +91,26 @@ const Index = () => {
     description: "Mentor aspiring data scientists and help them understand machine learning concepts and AI applications."
   }];
   return <div className="min-h-screen bg-background">
-    {/* Navigation */}
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex justify-center space-x-8">
-          <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">About</a>
-          <a href="#experience" className="text-muted-foreground hover:text-primary transition-colors">Experience</a>
-          <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">Projects</a>
-          <a href="#skills" className="text-muted-foreground hover:text-primary transition-colors">Skills</a>
-          <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
-        </div>
-      </div>
-    </nav>
 
     {/* Hero Section */}
     <section className="min-h-screen flex items-center justify-center px-6 pt-20">
       <div className="text-center max-w-4xl mx-auto">
-        <div className="relative mb-8">
-          <img src={profileImage} alt="Faizan Ahmad" className="w-60 h-60 rounded-full mx-auto border-4 pulse-glow floating-animation" />
+        <div className="relative mb-8 ">
+          <img src={profileImage} alt="Faizan Ahmad" className="w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 rounded-full mx-auto border-8 floating-animation object-cover" />
         </div>
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 hero-text animate-fade-in-up">Faizan Ahmad</h1>
-        <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in-up" style={{
+        <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 hero-text animate-fade-in-up">Faizan Ahmad</h1>
+        <p className="text-base sm:text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in-up" style={{
           animationDelay: '0.2s'
         }}>
           Data Scientist | GenAI Engineer | AI Engineer
         </p>
-        <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto animate-fade-in-up" style={{
+        <p className="text-sm sm:text-lg md:text-lg text-muted-foreground mb-12 max-w-2xl mx-auto animate-fade-in-up" style={{
           animationDelay: '0.4s'
         }}>
           Experienced Data Scientist specializing in machine learning, deep learning, and large language models (LLMs).
           Proficient in Python, NLP, and advanced AI frameworks with expertise in LLM agents and AI-driven data processing.
         </p>
-        <div className="flex justify-center space-x-4 animate-fade-in-up" style={{
+        <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4 space-y-4 sm:space-y-0 animate-fade-in-up" style={{
           animationDelay: '0.6s'
         }}>
           <a href="mailto:faizanbutt030@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
@@ -125,7 +120,7 @@ const Index = () => {
               Get In Touch
             </Button>
           </a>
-          <a href="https://drive.google.com/file/d/1G_I1eEP48tVfcJUtZkewidfvGVi_Q7fG/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+          <a href="https://drive.google.com/file/d/18A0vt-it18kIy2MfAgwsPn42aBqT-2d9/view?usp=sharing" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="lg" className="glow-border hover-lift">
               <Link className="mr-2 h-4 w-4" />
               View Resume
@@ -136,10 +131,10 @@ const Index = () => {
     </section>
 
     {/* About Section */}
-    <section id="about" className="py-20 px-6">
+    <section id="about" className="py-16 sm:py-20 px-3 sm:px-6">
       <div className="container mx-auto max-w-6xl">
         <h2 className="section-title">About Me</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div className="animate-fade-in-up">
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
               I'm an experienced Data Scientist specializing in machine learning, deep learning, and large language models (LLMs),
@@ -186,10 +181,10 @@ const Index = () => {
     </section>
 
     {/* Education Section */}
-    <section id="education" className="py-20 px-6 bg-muted/20">
+    <section id="education" className="py-16 sm:py-20 px-3 sm:px-6 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
         <h2 className="section-title">Education</h2>
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {education.map((edu, index) => <Card key={index} className="glass-card hover-lift animate-fade-in-up" style={{
             animationDelay: `${index * 0.2}s`
           }}>
@@ -209,10 +204,10 @@ const Index = () => {
     </section>
 
     {/* Experience Section */}
-    <section id="experience" className="py-20 px-6">
+    <section id="experience" className="py-16 sm:py-20 px-3 sm:px-6">
       <div className="container mx-auto max-w-6xl">
         <h2 className="section-title">Work Experience</h2>
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {experiences.map((exp, index) => <Card key={index} className="glass-card hover-lift animate-fade-in-up" style={{
             animationDelay: `${index * 0.2}s`
           }}>
@@ -235,10 +230,10 @@ const Index = () => {
     </section>
 
     {/* Projects Section */}
-    <section id="projects" className="py-20 px-6 bg-muted/20">
+    <section id="projects" className="py-16 sm:py-20 px-3 sm:px-6 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
         <h2 className="section-title">Featured Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {projects.map((project, index) => <Card key={index} className="glass-card hover-lift animate-scale-in" style={{
             animationDelay: `${index * 0.2}s`
           }}>
@@ -254,10 +249,10 @@ const Index = () => {
     </section>
 
     {/* Skills Section */}
-    <section id="skills" className="py-20 px-6">
+    <section id="skills" className="py-16 sm:py-20 px-3 sm:px-6">
       <div className="container mx-auto max-w-6xl">
         <h2 className="section-title">Skills & Technologies</h2>
-        <div className="flex flex-wrap justify-center gap-4 animate-fade-in-up">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 animate-fade-in-up">
           {skills.map((skill, index) => <Badge key={index} variant="secondary" className=" bg-blue-100 text-blue-700 text-sm py-2 px-4" style={{
             animationDelay: `${index * 0.1}s`
           }}>
@@ -268,10 +263,10 @@ const Index = () => {
     </section>
 
     {/* Certifications Section */}
-    <section id="certifications" className="py-20 px-6 bg-muted/20">
+    <section id="certifications" className="py-16 sm:py-20 px-3 sm:px-6 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
         <h2 className="section-title">Certifications</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {certifications.map((cert, index) => <Card key={index} className="glass-card hover-lift animate-fade-in-up" style={{
             animationDelay: `${index * 0.2}s`
           }}>
@@ -285,10 +280,10 @@ const Index = () => {
     </section>
 
     {/* Volunteer Work Section */}
-    <section id="volunteer" className="py-20 px-6">
+    <section id="volunteer" className="py-16 sm:py-20 px-3 sm:px-6">
       <div className="container mx-auto max-w-6xl">
         <h2 className="section-title">Volunteer Work</h2>
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {volunteerWork.map((volunteer, index) => <Card key={index} className="glass-card hover-lift animate-fade-in-up" style={{
             animationDelay: `${index * 0.2}s`
           }}>
@@ -311,10 +306,10 @@ const Index = () => {
     </section>
 
     {/* Contact Section */}
-    <section id="contact" className="py-20 px-6 bg-muted/20">
+    <section id="contact" className="py-16 sm:py-20 px-3 sm:px-6 bg-muted/20">
       <div className="container mx-auto max-w-4xl">
         <h2 className="section-title">Get In Touch</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
           <div className="animate-fade-in-up">
             <p className="text-lg text-muted-foreground mb-8">
               I'm always interested in new opportunities and exciting AI projects.
@@ -343,21 +338,21 @@ const Index = () => {
               <CardTitle>Send Message</CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Input placeholder="Your Name" value={formData.name} onChange={e => setFormData({
+                  <Input name="from_name" placeholder="Your Name" value={formData.name} onChange={e => setFormData({
                     ...formData,
                     name: e.target.value
                   })} required className="bg-background/50" />
                 </div>
                 <div>
-                  <Input type="email" placeholder="Your Email" value={formData.email} onChange={e => setFormData({
+                  <Input name="reply_to" type="email" placeholder="Your Email" value={formData.email} onChange={e => setFormData({
                     ...formData,
                     email: e.target.value
                   })} required className="bg-background/50" />
                 </div>
                 <div>
-                  <Textarea placeholder="Your Message" value={formData.message} onChange={e => setFormData({
+                  <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={e => setFormData({
                     ...formData,
                     message: e.target.value
                   })} required rows={5} className="bg-background/50" />
@@ -373,7 +368,7 @@ const Index = () => {
     </section>
 
     {/* Footer */}
-    <footer className="py-8 px-6 border-t border-border">
+    <footer className="py-6 sm:py-8 px-3 sm:px-6 border-t border-border">
       <div className="container mx-auto text-center">
         <p className="text-muted-foreground">
           © 2024 Faizan Ahmad.

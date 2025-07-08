@@ -95,7 +95,7 @@
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
+    --muted: 217.2 13.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
     --accent: 217.2 32.6% 17.5%;
@@ -164,11 +164,11 @@
   }
 
   .floating-animation {
-    animation: floating 6s ease-in-out infinite;
+    animation: floating  infinite;
   }
 
   .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite alternate;
+    animation: pulseGlow 2s ease-in-out infinite alternate ;
   }
 
   .hover-lift {
