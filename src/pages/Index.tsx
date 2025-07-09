@@ -149,7 +149,7 @@ const Index = () => {
               <a href="https://www.linkedin.com/in/fezwho" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Linkedin className="h-6 w-6" />
               </a>
-              <a href="mailto:faizanbutt030@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="mailto:inbox.fezan@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
                 <Mail className="h-6 w-6" />
               </a>
             </div>
@@ -318,7 +318,7 @@ const Index = () => {
             <div className="space-y-4">
               <div className="flex items-center">
                 <Mail className="mr-4 h-5 w-5 text-primary" />
-                <span>faizanbutt030@gmail.com</span>
+                <span>inbox.fezan@gmail.com</span>
               </div>
               <div className="flex items-center">
                 <Phone className="mr-4 h-5 w-5 text-primary" />
